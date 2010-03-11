@@ -1,1 +1,15 @@
 Follow directory structure
+
+Javadoc
+
+Run spider in its own thread
+ - When getting data from the cache, get a read-only copy of the cache
+
+Add debug clauses
+ - Only get X pages
+ - Stay within one domain
+etc.
+
+Put in HTTP stuff
+
+
