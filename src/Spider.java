@@ -4,7 +4,7 @@
 
 import java.io.*;
 
-public class Spider implements IWCrawler {
+public class Spider {
 
 	// Stores our findings
 	private Cache webCache;
@@ -68,6 +68,8 @@ public class Spider implements IWCrawler {
 	 * Start the spider, giving it a URL.
 	 */
 	public void start_with(URL startURL) {
+		currentURL = startURL;
+		start();
 	}
 
 	/*
@@ -103,4 +105,5 @@ public class Spider implements IWCrawler {
 		} while (next_url());
 		
 	}
+	
 }
