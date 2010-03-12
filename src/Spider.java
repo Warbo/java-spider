@@ -3,6 +3,7 @@
  */
 
 import java.io.*;
+import java.net.*;
 
 public class Spider {
 
@@ -16,7 +17,7 @@ public class Spider {
 	 */
 	public Spider(Cache old_cache) {
 		webCache = old_cache;
-		currentURL = "";		// FIXME: Use URL objects, not Strings
+		currentURL = null;
 	}
 
 	/*
@@ -78,7 +79,7 @@ public class Spider {
 	public void start() {
 		// If we have no URL then see if we can get one from the cache.
 		// If not then exit.
-		if (currentURL == "") {
+		if (currentURL == null) {
 			if (!next_url()) {
 				System.out.println("Please provide a URL.");
 				System.exit(0);
@@ -91,7 +92,7 @@ public class Spider {
 		// during our test
 		do {
 			// Ensure that the working URL is not in a robots.txt
-			if (!check_domain()) {
+			if (!in_robots()) {
 				// If not then we're free to go ahead.
 
 				// Get the data
@@ -104,6 +105,11 @@ public class Spider {
 			// The condition below takes us to a new working URL
 		} while (next_url());
 		
+	}
+
+	public Cache dumpCache() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -1,3 +1,6 @@
+import java.net.URL;
+import java.util.List;
+
 interface myIWCrawler {
 	
 	public void startIWCrawler(final URL mySeed);
