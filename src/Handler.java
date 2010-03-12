@@ -1,8 +1,11 @@
+import java.net.URL;
+import java.util.*;
+
 /*
  * API translation between the spider and the required interface.
  */
 
-public class IWCrawlerImplementation implements IWCrawler {
+public class Handler implements myIWCrawler {
 
 	private Spider spider;
 	private Cache cache;
@@ -15,7 +18,8 @@ public class IWCrawlerImplementation implements IWCrawler {
 
 	public boolean isIWRobotSafe(final URL myUrl) {
 		//TODO: Implement passing a URL
-		return spider.in_robots(myUrl);
+		//return spider.in_robots(myUrl);
+		return true;
 	}
 
 	public void stopIWCrawler () {
@@ -41,3 +45,4 @@ public class IWCrawlerImplementation implements IWCrawler {
 		// TODO: Get pages for a domain, then get links for each page
 		return cache.get_external_urls();
 	}
+}
