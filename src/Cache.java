@@ -1,3 +1,5 @@
+import java.util.HashTable;
+
 /*
  * This implements a cache for our spider. It stores:
  * unprocessed_urls
@@ -8,17 +10,14 @@
  * domain->data_or_error
  * domain->last_checked
  */
-
-import java.util.*;
-
 public class Cache {
 
 	// Use HashTables for our storage, since they're O(1)
-	private HashTable robots;
-	private HashTable links_to;
-	private HashTable links_from;
-	private HashTable data;
-	private HashTable last_checked;
+	private Map robots;
+	private Map links_to;
+	private Map links_from;
+	private Map data;
+	private Map last_checked;
 
 	/*
 	 * Make a new, empty cache.
@@ -35,7 +34,7 @@ public class Cache {
 	/*
 	 * Returns a URL from the cache which has not yet been processed.
 	 */
-	public get_unprocessed() {
+	public URL get_unprocessed() {
 	}
-
+}
 	
