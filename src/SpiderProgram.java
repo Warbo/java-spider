@@ -12,9 +12,8 @@ public class SpiderProgram implements myIWCrawler {
 	 * with the supplied URL.
 	 */
 	public void startIWCrawler(final URL mySeed) {
-		cache = new Cache();
-		spiderHandler = new Handler(cache);
-		spider.start_with(mySeed);
+		spiderHandler = new Handler();
+		spiderHandler.start_with(mySeed);
 	}
 
 	/*
@@ -22,27 +21,39 @@ public class SpiderProgram implements myIWCrawler {
 	 * accessed.
 	 */
 	public boolean isIWRobotSafe(final URL myUrl) {
-		//TODO: Implement passing a URL
-		return spider.in_robots(myUrl);
+		// We may need to download a robots.txt, so
+		// we can't use a dump of the cache here
+		return spiderHandler.spider.in_robots(myUrl);
 	}
 
 	/*
-	 * Stops any running spider threads.
+	 * Stops any running spider threads (after they've
+	 * finished what they're in the middle of).
 	 */
 	public void stopIWCrawler() {
-		try {
-			spiderHandler.stop()
-		}
-		catch (Exception e) {}
+		// We can't use stop() since it's
+		// fundamentally flawed, so set this to
+		// false so that the handler knows to
+		// stop. This is not immediate, so that's
+		// why we also have a kill method.
+		spiderHandler.keepRunning = false;
+		
+		// The spider should no-longer be running
+		// so we may as well make a duplicate of
+		// its cache at this point
+		spiderHandlercache = spiderHandler.getCache();
 	}
 
 	/*
 	 * Start a spider handler, based on the contents
-	 * of any previous handler.
+	 * of any previous handler. Is not guaranteed to
+	 * work for killed spiders.
 	 */
 	public void resumeIWCrawler() {
-		spider = new Spider(cache);
-		spider.start();
+		// If we have a stopped spider then we'll
+		// have its state in our cache.
+		spiderHandler = new Handler(spiderHandler.getCache());
+		spiderHandler.start();
 	}
 
 	/*
@@ -54,7 +65,7 @@ public class SpiderProgram implements myIWCrawler {
 	}
 
 	public List<URL> getLocalIWUrls() {
-		cache = spider.dumpCache();
+		spiderHandler.getCache();
 		return cache.get_local_urls();
 	}
 
