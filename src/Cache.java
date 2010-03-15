@@ -1,4 +1,4 @@
-/*
+/**
  * This implements a cache for our spider. It stores:
  * unprocessed_urls
  * failed_urls
@@ -16,7 +16,7 @@ import java.net.*;
 public class Cache {
 
 	// Use HashTables for our storage, since they're O(1)
-	private Map<String, List<String>> in_robots;
+	private Map<String, List<String>> inRobots;
 	private Map<URL, List<URL>> links_to;
 	private Map<URL, List<URL>> links_from;
 	private Map<URL, String> data;
@@ -41,7 +41,7 @@ public class Cache {
 	 * Sets up the cache
 	 */
 	private void init(String agent, int interval) {
-		in_robots = new Hashtable<String, List<String>>();
+		inRobots = new Hashtable<String, List<String>>();
 		links_to = new Hashtable<URL, List<URL>>();
 		links_from = new Hashtable<URL, List<URL>>();
 		data = new Hashtable<URL, String>();
@@ -83,12 +83,12 @@ public class Cache {
 	}
 
 	public boolean checked_robots(URL currentURL) {
-		return in_robots.containsKey(currentURL.getHost());
+		return inRobots.containsKey(currentURL.getHost());
 	}
 
 	public boolean in_robots(URL currentURL) {
 		// If everything's banned in the domain then return true
-		if (in_robots.get(currentURL.getHost()).contains("/")) {
+		if (inRobots.get(currentURL.getHost()).contains("/")) {
 			return true;
 		}
 	
@@ -106,7 +106,7 @@ public class Cache {
 			}
 			
 			// See if our partial path is blocked
-			if (in_robots.get(currentURL.getHost()).contains(currentPath)) {
+			if (inRobots.get(currentURL.getHost()).contains(currentPath)) {
 				return true;
 			}
 		}
@@ -154,14 +154,14 @@ public class Cache {
 				else {
 					if (valid_line.contains("Disallow:") && take_heed) {
 						// If this is our first rule then make the required list
-						if (!in_robots.containsKey(domain)) {
-							in_robots.put(domain, new LinkedList<String>());
+						if (!inRobots.containsKey(domain)) {
+							inRobots.put(domain, new LinkedList<String>());
 						}
 						
 						// New we know there's a rules list, so append to it
-						List<String> rules = in_robots.get(domain);
+						List<String> rules = inRobots.get(domain);
 						rules.add(valid_line.replaceFirst("Disallow:", "").trim());
-						in_robots.put(domain, rules);
+						inRobots.put(domain, rules);
 					}
 				}
 			}

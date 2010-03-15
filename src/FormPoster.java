@@ -2,6 +2,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/**
+ * Class for POSTing forms, if the need arises
+ */
 
 public class FormPoster {
 
@@ -83,7 +86,7 @@ public class FormPoster {
 	
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Hashtable<String, String> ctHash = new Hashtable<String, String>();
 		ctHash.put("q", "ciravegna");
@@ -96,6 +99,6 @@ public class FormPoster {
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-	}
+	}*/
 
 }

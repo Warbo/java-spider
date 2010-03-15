@@ -1,6 +1,9 @@
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Given interface for the Spider program to implement
+ */
 interface myIWCrawler {
 	
 	public void startIWCrawler(final URL mySeed);

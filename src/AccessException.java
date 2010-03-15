@@ -3,7 +3,7 @@
  */
 
 /**
- *
+ * Useful for throwing when we get an unexpected HTTP response
  */
 public class AccessException extends Exception {
 
