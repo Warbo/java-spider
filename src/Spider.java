@@ -26,10 +26,23 @@ public class Spider {
 	 */
 	private boolean next_url() {
 		try {
-			currentURL = webCache.get_unprocessed();
-			return true;
+			// TODO: Maybe change this from being infinite?
+			while (true) {
+				// Grab a URL
+				currentURL = webCache.get_unprocessed();
+			
+				// We get null if all URLs have been accessed recently
+				if (currentURL == null) {
+					// Wait for the loop to restart
+				}
+				else {
+					// If we get a valid URL then use it
+					return true;
+				}
+			}
 		}
 		catch (Exception e) {
+			// An exception will be thrown if there are no more URLs
 			return false;
 		}
 	}
@@ -39,7 +52,12 @@ public class Spider {
 	 * TODO: Handle things other than "OK"
 	 */
 	private void get() {
-		
+		try {
+			webCache.setData(currentURL, WebGet.get(currentURL));
+		}
+		catch (Exception e) {
+			
+		}
 	}
 
 	/*
@@ -49,9 +67,17 @@ public class Spider {
 		//See if we have checked this domain for a robots.txt yet
 		if (!webCache.checked_robots(currentURL)) {
 			// If we haven't then do that now
-			URL domain = Cache.get_domain(currentURL);
-			// TODO: Add robots.txt to this domain
-			// TODO: Try to download it
+			String domain = currentURL.getHost();
+			// Add robots.txt to this domain
+			String robot = domain+"/robots.txt";
+			
+			// Try to download it
+			try {
+				webCache.addRobot(domain, WebGet.get(new URL(robot)));
+			}
+			catch (Exception e) {
+				
+			}
 		}
 		// New we definitely have a robots.txt, if there is one, so we can see
 		// if we're in it
@@ -59,6 +85,31 @@ public class Spider {
 		
 	}
 
+	/*
+	 * Looks for a robots.txt in the domain of the provided URL.
+	 */
+	public boolean in_robots(URL myUrl) {
+		//See if we have checked this domain for a robots.txt yet
+		if (!webCache.checked_robots(myUrl)) {
+			// If we haven't then do that now
+			String domain = myUrl.getHost();
+			// Add robots.txt to this domain
+			String robot = domain + "/robots.txt";
+			
+			String robot_contents = "";
+			// Try to download it
+			try {
+				webCache.addRobot(domain, WebGet.get(new URL(robot)));
+			}
+			catch (Exception e) {
+				
+			}
+		}
+		// New we definitely have a robots.txt, if there is one, so we can see
+		// if we're in it
+		return webCache.in_robots(myUrl);
+	}
+	
 	/*
 	 * Performs the desired operations on the downloaded data (eg. keyword
 	 * indexing)
@@ -105,11 +156,6 @@ public class Spider {
 	public Cache dumpCache() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public boolean in_robots(URL myUrl) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	
 }
