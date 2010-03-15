@@ -3,16 +3,14 @@ import java.net.*;
 import java.util.*;
 
 
-public class FormPosting {
+public class FormPoster {
 
-	public void postRequest(String webPage, Hashtable ctHash) {
-		URL url;                      
-		HttpURLConnection urlConn;      
-		DataOutputStream printout;    
+	public static void postRequest(URL url, Hashtable<String, String> ctHash) {                    
+		HttpURLConnection urlConn;
+		DataOutputStream printout;
 		BufferedReader input;
 		try {
 			String content= createQueryString (ctHash);
-			url = new URL(webPage);
 			urlConn = (HttpURLConnection) url.openConnection();
 			urlConn.setRequestProperty("User-Agent", "Java Spider");
 			urlConn.setDoOutput(true);
@@ -49,10 +47,10 @@ public class FormPosting {
 			 }}
 			    
 	
-	String createQueryString (Hashtable ctHash){
+	static String createQueryString (Hashtable<String, String> ctHash){
 		System.out.println(ctHash);
 		StringBuilder content = new StringBuilder();
-		Enumeration e = ctHash.keys();
+		Enumeration<String> e = ctHash.keys();
 		boolean first = true;
 		while(e.hasMoreElements()){  
 			// For each key and value pair in the hashtable
@@ -87,14 +85,17 @@ public class FormPosting {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Hashtable ctHash = new Hashtable();
+		Hashtable<String, String> ctHash = new Hashtable<String, String>();
 		ctHash.put("q", "ciravegna");
 		ctHash.put("submit", "Search");
 		ctHash.put("sort","rel");
 		ctHash.put("ic", "0");      // Include citations
-		FormPosting qf = new FormPosting();
-
-		qf.postRequest("http://citeseerx.ist.psu.edu/search", ctHash);
+		try {
+			FormPoster.postRequest(new URL("http://citeseerx.ist.psu.edu/search"), ctHash);
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 
 }

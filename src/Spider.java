@@ -39,6 +39,7 @@ public class Spider {
 	 * TODO: Handle things other than "OK"
 	 */
 	private void get() {
+		
 	}
 
 	/*
@@ -66,50 +67,49 @@ public class Spider {
 	}
 
 	/*
-	 * Start the spider, giving it a URL.
+	 * Set up the spider with the given URL.
 	 */
 	public void start_with(URL startURL) {
 		currentURL = startURL;
-		start();
 	}
 
 	/*
 	 * Start the spider, supplying no URL.
 	 */
-	public void start() {
+	public void iterate() {
 		// If we have no URL then see if we can get one from the cache.
 		// If not then exit.
 		if (currentURL == null) {
 			if (!next_url()) {
-				System.out.println("Please provide a URL.");
+				System.out.println("No URL to work with.");
 				System.exit(0);
 			}
 		}
 
 		// If we have reached here then we have a URL set, either from
-		// start_with or next_url, so we can run our loop.
-		// NOTE: We use a do-while loop here, since we replace the working URL
-		// during our test
-		do {
-			// Ensure that the working URL is not in a robots.txt
-			if (!in_robots()) {
-				// If not then we're free to go ahead.
+		// start_with or next_url, so we can do something.
+		
+		// Ensure that the working URL is not in a robots.txt
+		if (!in_robots()) {
+			// If not then we're free to go ahead.
 
-				// Get the data
-				get();
+			// Get the data
+			get();
 
-				// Act on it
-				process();
-			}
-			
-			// The condition below takes us to a new working URL
-		} while (next_url());
+			// Act on it
+			process();
+		}
 		
 	}
 
 	public Cache dumpCache() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean in_robots(URL myUrl) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

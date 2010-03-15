@@ -2,6 +2,9 @@
  * Run and control a Spider, and implement the required API.
  */
 
+import java.net.*;
+import java.util.*;
+
 public class SpiderProgram implements myIWCrawler {
 
 	// This is the thread running the spider
@@ -41,7 +44,7 @@ public class SpiderProgram implements myIWCrawler {
 		// The spider should no-longer be running
 		// so we may as well make a duplicate of
 		// its cache at this point
-		spiderHandlercache = spiderHandler.getCache();
+		spiderHandler.cache = spiderHandler.spider.dumpCache();
 	}
 
 	/*
@@ -52,7 +55,7 @@ public class SpiderProgram implements myIWCrawler {
 	public void resumeIWCrawler() {
 		// If we have a stopped spider then we'll
 		// have its state in our cache.
-		spiderHandler = new Handler(spiderHandler.getCache());
+		spiderHandler = new Handler(spiderHandler.spider.dumpCache());
 		spiderHandler.start();
 	}
 
@@ -61,16 +64,17 @@ public class SpiderProgram implements myIWCrawler {
 	 * us in an inconsistent state.
 	 */
 	public void killIWCrawler() {
-		spiderHandler.destroy()
+		spiderHandler.destroy();
 	}
 
 	public List<URL> getLocalIWUrls() {
-		spiderHandler.getCache();
+		Cache cache = spiderHandler.spider.dumpCache();
 		return cache.get_local_urls();
 	}
 
 	public List<URL> getExternalIWURLs() {
-		cache = spider.dumpCache();
+		Cache cache = spiderHandler.spider.dumpCache();
 		// TODO: Get pages for a domain, then get links for each page
 		return cache.get_external_urls();
 	}
+}
